@@ -1,21 +1,20 @@
 package com.inditex.price.domain;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.Objects;
+import java.time.LocalDateTime;
 
 public class Price {
 
     private final Long id;
     private final Product product;  // Solo referencia a Product
-    private final LocalDate startDate;
-    private final LocalDate endDate;
+    private final LocalDateTime startDate;
+    private final LocalDateTime endDate;
     private final Integer priceList;
     private final BigDecimal price;  // Precio como BigDecimal, no como Value Object
     private final String currency;   // Moneda como String (código ISO)
 
     // Constructor
-    public Price(Long id, Product product, LocalDate startDate, LocalDate endDate,
+    public Price(Long id, Product product, LocalDateTime startDate, LocalDateTime endDate,
                  Integer priceList, BigDecimal price, String currency) {
         this.id = id;
         this.product = product;
@@ -35,11 +34,11 @@ public class Price {
         return product;
     }
 
-    public LocalDate getStartDate() {
+    public LocalDateTime getStartDate() {
         return startDate;
     }
 
-    public LocalDate getEndDate() {
+    public LocalDateTime getEndDate() {
         return endDate;
     }
 
@@ -56,7 +55,7 @@ public class Price {
     }
 
     // Método para verificar si un precio es válido para una fecha específica
-    public boolean isValidForDate(LocalDate date) {
+    public boolean isValidForDate(LocalDateTime date) {
         return !date.isBefore(startDate) && !date.isAfter(endDate);
     }
 
