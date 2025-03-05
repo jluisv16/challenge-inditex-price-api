@@ -32,6 +32,11 @@ public class Product {
 
     }
 
+    public Product(Long id, String descripcion) {
+        this.id = id;
+        this.descripcion = descripcion;
+    }
+
     // Métodos de negocio
     public void addPrice(Price price) {
         this.prices.add(price);
