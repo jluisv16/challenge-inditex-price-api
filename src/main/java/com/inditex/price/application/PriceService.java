@@ -2,9 +2,9 @@ package com.inditex.price.application;
 
 import com.inditex.price.application.dto.PriceDto;
 import com.inditex.price.domain.Price;
-import com.inditex.price.domain.Product;
 
 import com.inditex.price.domain.service.PriceRepository;
+import com.inditex.price.infrastructure.mapper.PriceMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -20,14 +20,13 @@ public class PriceService {
         this.priceRepository = priceRepository;
     }
 
-    public Optional<PriceDto> getApplicablePrice(Long brandId, Long productId, LocalDateTime date) {
-        // Lógica de negocio para obtener el precio del
-        // producto según la fecha, producto y marca
+    public Optional<PriceDto> findValidPrices(Long brandId, Long productId, LocalDateTime date) {
+
         List<Price> pricesList  = priceRepository.findValidPrices(brandId, productId, date);
 
-        /*if (!pricesList.isEmpty()) {
-            return pricesList.stream().findFirst().map(this::toDto);
-        }*/
-        return null;
+        if (!pricesList.isEmpty()) {
+            return pricesList.stream().findFirst().map(PriceMapper::toDto);
+        }
+        return Optional.empty();
     }
 }
