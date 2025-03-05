@@ -1,18 +1,35 @@
 package com.inditex.price.domain;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Product {
 
     private final Long id;
     private final String descripcion;
+    private final List<Price> prices;
 
-    public Product(Long id, String descripcion) {
-        if (id == null || descripcion == null || descripcion.isEmpty()) {
-            throw new IllegalArgumentException("Product id and descripcion must not be null or empty");
+    public Product(Long id, String descripcion, List<Price> prices) {
+        if (id == null || descripcion == null || descripcion.isEmpty() || prices == null || prices.isEmpty()) {
+            throw new IllegalArgumentException("Product id, descripcion and prices must not be null or empty");
         }
         this.id = id;
         this.descripcion = descripcion;
+        this.prices = prices;
+    }
+
+    // Métodos de negocio
+    public void addPrice(Price price) {
+        this.prices.add(price);
+    }
+
+    public List<Price> getPricesOnDate(LocalDate date) {
+        // Devuelve precios activos en una fecha específica
+        return prices.stream()
+                .filter(price -> price.isActiveOnDate(date))
+                .collect(Collectors.toList());
     }
 
     // Getters
@@ -22,6 +39,10 @@ public class Product {
 
     public String getDescripcion() {
         return descripcion;
+    }
+
+    public List<Price> getPrices() {
+        return prices;
     }
 
     @Override
@@ -42,6 +63,7 @@ public class Product {
         return "Product{" +
                 "id=" + id +
                 ", descripcion='" + descripcion + '\'' +
+                ", prices=" + prices +
                 '}';
     }
 
