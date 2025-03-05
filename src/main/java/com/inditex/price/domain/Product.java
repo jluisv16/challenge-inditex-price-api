@@ -9,20 +9,26 @@ public class Product {
 
     private final Long id;
     private final String descripcion;
+    private Brand brand;
     private final List<Price> prices;
 
-    public Product(Long id, String descripcion, List<Price> prices) {
-        if (id == null || descripcion == null || descripcion.isEmpty() || prices == null || prices.isEmpty()) {
-            throw new IllegalArgumentException("Product id, descripcion and prices must not be null or empty");
+    public Product(Long id, String descripcion, Brand brand, List<Price> prices) {
+        if (id == null || descripcion == null || descripcion.isEmpty() || brand == null || prices == null || prices.isEmpty()) {
+            throw new IllegalArgumentException("Product id, descripcion, brand and prices must not be null or empty");
         }
         this.id = id;
         this.descripcion = descripcion;
+        this.brand = brand;
         this.prices = prices;
     }
 
     // Métodos de negocio
     public void addPrice(Price price) {
         this.prices.add(price);
+    }
+
+    public void changeBrand(Brand newBrand) {
+        this.brand = newBrand;
     }
 
     public List<Price> getPricesOnDate(LocalDate date) {
@@ -39,6 +45,10 @@ public class Product {
 
     public String getDescripcion() {
         return descripcion;
+    }
+
+    public Brand getBrand() {
+        return brand;
     }
 
     public List<Price> getPrices() {
@@ -63,6 +73,7 @@ public class Product {
         return "Product{" +
                 "id=" + id +
                 ", descripcion='" + descripcion + '\'' +
+                ", brand=" + brand +
                 ", prices=" + prices +
                 '}';
     }

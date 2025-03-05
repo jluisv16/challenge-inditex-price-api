@@ -7,22 +7,25 @@ import java.util.Objects;
 public class Price {
 
     private final Long id;
-    private final Product product;
-    private final Brand brand;
+    private final Product product;  // Solo referencia a Product.
     private final BigDecimal amount;
     private final LocalDate startDate;
     private final LocalDate endDate;
 
-    public Price(Long id, Product product, Brand brand, BigDecimal amount, LocalDate startDate, LocalDate endDate) {
-        if (id == null || product == null || brand == null || amount == null || startDate == null || endDate == null) {
-            throw new IllegalArgumentException("Price, Product, Brand, Amount, StartDate and EndDate must not be null");
+    public Price(Long id, Product product, BigDecimal amount, LocalDate startDate, LocalDate endDate) {
+        if (id == null || product == null || amount == null || startDate == null || endDate == null) {
+            throw new IllegalArgumentException("Price, Product, Amount, StartDate and EndDate must not be null");
         }
         this.id = id;
         this.product = product;
-        this.brand = brand;
         this.amount = amount;
         this.startDate = startDate;
         this.endDate = endDate;
+    }
+
+    // Métodos de negocio
+    public boolean isActiveOnDate(LocalDate date) {
+        return !startDate.isAfter(date) && !endDate.isBefore(date);
     }
 
     // Getters
@@ -32,10 +35,6 @@ public class Price {
 
     public Product getProduct() {
         return product;
-    }
-
-    public Brand getBrand() {
-        return brand;
     }
 
     public BigDecimal getAmount() {
@@ -48,11 +47,6 @@ public class Price {
 
     public LocalDate getEndDate() {
         return endDate;
-    }
-
-    // Métodos adicionales de negocio
-    public boolean isActiveOnDate(LocalDate date) {
-        return !startDate.isAfter(date) && !endDate.isBefore(date);
     }
 
     @Override
@@ -72,8 +66,7 @@ public class Price {
     public String toString() {
         return "Price{" +
                 "id=" + id +
-                ", product=" + product.getDescripcion() +
-                ", brand=" + brand.getDescripcion() +
+                ", product=" + product.getDescripcion() +  // Aquí usamos la descripción del producto
                 ", amount=" + amount +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
