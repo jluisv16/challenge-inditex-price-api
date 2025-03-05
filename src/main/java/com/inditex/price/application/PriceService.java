@@ -1,6 +1,12 @@
 package com.inditex.price.application;
 
+import com.inditex.price.domain.Price;
+import com.inditex.price.domain.Product;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PriceService {
