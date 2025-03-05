@@ -1,10 +1,13 @@
 package com.inditex.price.application;
 
+import com.inditex.price.application.dto.PriceDto;
 import com.inditex.price.domain.Price;
 import com.inditex.price.domain.Product;
+
+import com.inditex.price.domain.service.PriceRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,27 +20,14 @@ public class PriceService {
         this.priceRepository = priceRepository;
     }
 
-    /**
-     * Método que obtiene el precio de un producto según la fecha, el producto y la marca.
-     */
-    public Optional<Price> getPriceForProduct(Product product, LocalDate date) {
-        List<Price> prices = priceRepository.findPricesForProduct(product, date);
-        return prices.stream()
-                .filter(price -> price.getProduct().equals(product) && price.getStartDate().isBefore(date) && price.getEndDate().isAfter(date))
-                .findFirst();
-    }
+    public Optional<PriceDto> getApplicablePrice(Long brandId, Long productId, LocalDateTime date) {
+        // Lógica de negocio para obtener el precio del
+        // producto según la fecha, producto y marca
+        List<Price> pricesList  = priceRepository.findValidPrices(brandId, productId, date);
 
-    /**
-     * Método que obtiene todos los precios de un producto en un rango de fechas.
-     */
-    public List<Price> getPricesForProductAndDateRange(Product product, LocalDate startDate, LocalDate endDate) {
-        return priceRepository.findPricesForProductAndDateRange(product, startDate, endDate);
-    }
-
-    /**
-     * Método que guarda un nuevo precio para un producto.
-     */
-    public Price savePrice(Price price) {
-        return priceRepository.save(price);
+        /*if (!pricesList.isEmpty()) {
+            return pricesList.stream().findFirst().map(this::toDto);
+        }*/
+        return null;
     }
 }
