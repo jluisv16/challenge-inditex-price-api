@@ -2,6 +2,7 @@ package com.inditex.price.application.api;
 
 import com.inditex.price.application.PriceService;
 import com.inditex.price.application.dto.PriceDto;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,15 +20,13 @@ public class PriceController {
         this.priceService = priceService;
     }
 
-    @GetMapping("/pricing/prices")
+    @GetMapping("/api/prices")
     public ResponseEntity<PriceDto> getValidPrices(
             @RequestParam Long brandId,
             @RequestParam Long productId,
-            @RequestParam String date) {
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime date) {
 
-        LocalDateTime dateTime = LocalDateTime.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-
-        return priceService.findValidPrices(brandId, productId, dateTime)
+        return priceService.findValidPrices(brandId, productId, date)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
