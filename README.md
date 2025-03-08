@@ -4,6 +4,7 @@ Este proyecto es una implementación de un servicio de precios para productos ba
 
 ## Tecnologías utilizadas
 
+- **Intellij Community**
 - **Java 17**
 - **Spring Boot 2.x**
 - **JUnit y Mockito** (para pruebas unitarias)
@@ -148,11 +149,16 @@ git clone https://github.com/jluisv16/challenge-inditex-price-api.git
 
 ### 2. Compilar y ejecutar el proyecto
 
-Para compilar y ejecutar el proyecto, utiliza el siguiente comando Maven:
+Para compilar, descarga las dependencias publicas de maven que requiere el proyecto y ejecutar el proyecto, utilizando el comando Maven:
 
+```bash
+mvn clean package -U spring-boot:run
+```
+NOTA: Solo la primera vez, luego utilizar el siguiente comando para ejecutar el proyecto de forma simple:
 ```bash
 mvn clean spring-boot:run
 ```
+
 ### 3. Acceder al servicio
 
 Una vez que la aplicación esté en ejecución, el servicio REST estará disponible por defecto en http://localhost:8080.
